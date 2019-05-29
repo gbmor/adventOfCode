@@ -23,11 +23,25 @@ func (f *fabric) drawClaims(claims [][]int) {
 		y := v[2]
 		for i := 0; i < v[3]; i++ {
 			f.grid[y][x+i]++
-		}
-		for i := 0; i < v[4]; i++ {
-			f.grid[y+i][x]++
+			for j := 1; j < v[4]; j++ {
+				f.grid[y+j][x+i]++
+			}
 		}
 	}
+}
+
+func (f *fabric) findOverlap() int {
+	var out int
+
+	for _, v := range f.grid {
+		for _, e := range v {
+			if e > 1 {
+				out++
+			}
+		}
+	}
+
+	return out
 }
 
 func maybePanic(err error) {
@@ -81,6 +95,6 @@ func main() {
 	fab := newFabric()
 	claims := parseClaims()
 	fab.drawClaims(claims)
-	fmt.Printf("%#v\n", fab.grid)
+	fmt.Printf("Overlap: %v square inches\n", fab.findOverlap())
 
 }
