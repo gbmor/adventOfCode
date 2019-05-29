@@ -43,30 +43,38 @@ func checksum(boxen []string) int {
 	return one * two
 }
 
+func hammingDistance(a, b string) int {
+	var dist int
+	c := []rune(b)
+	for k, v := range a {
+		if v != c[k] {
+			dist++
+		}
+	}
+	return dist
+}
+
 func oneCharDiff(boxen []string) string {
+	var hams = map[int][]string{}
+	for _, e := range boxen {
+		for _, v := range boxen {
+			dist := hammingDistance(e, v)
+			hams[dist] = []string{e, v}
+		}
+	}
+
+	var two []string
+	for k, v := range hams {
+		if k == 1 {
+			two = v
+		}
+	}
+
 	var samesies []rune
-	for i, e := range boxen {
-		for k, v := range boxen {
-			if i == k {
-				continue
-			}
-			samesies := []rune{}
-			diffs := 0
-			compstr := []rune(v)
-			for j, p := range e {
-				if p != compstr[j] {
-					diffs++
-				}
-				if diffs > 1 {
-					break
-				}
-				if p == compstr[j] {
-					samesies = append(samesies, p)
-				}
-				if j == len(e)-1 {
-					return string(samesies)
-				}
-			}
+	for i, e := range two[0] {
+		r := []rune(two[1])
+		if e == r[i] {
+			samesies = append(samesies, e)
 		}
 	}
 
