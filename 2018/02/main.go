@@ -47,23 +47,23 @@ func oneCharDiff(boxen []string) string {
 	var samesies []rune
 	for i := 1; i < len(boxen); i++ {
 		diffs := 0
-		for p, e := range boxen[i] {
-			if diffs > 1 {
-				samesies = []rune{}
-				break
-			}
-			prev := boxen[i-1]
-			if e == rune(prev[p]) {
-				samesies = append(samesies, e)
-			} else if e == rune(prev[p]) && p == len(boxen[i])-1 {
-				samesies = append(samesies, e)
-				return string(samesies)
-			} else {
+		prev := []rune(boxen[i-1])
+		cur := []rune(boxen[i])
+		samesies = []rune{}
+
+		for k, v := range prev {
+			if v != cur[k] {
 				diffs++
+				if diffs > 1 {
+					break
+				}
 			}
-		}
-		if diffs == 1 {
-			break
+			if v == cur[k] {
+				samesies = append(samesies, v)
+			}
+			if k == len(prev)-1 && diffs <= 1 {
+				return string(samesies)
+			}
 		}
 	}
 
