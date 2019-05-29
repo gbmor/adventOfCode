@@ -8,17 +8,26 @@ import (
 )
 
 type fabric struct {
-	grid [][]int
+	grid [1000][1000]int
 }
 
 func newFabric() *fabric {
 	return &fabric{
-		grid: [][]int{},
+		grid: [1000][1000]int{},
 	}
 }
 
-func (f *fabric) draw() {
-
+func (f *fabric) drawClaims(claims [][]int) {
+	for _, v := range claims {
+		x := v[1]
+		y := v[2]
+		for i := 0; i < v[3]; i++ {
+			f.grid[y][x+i]++
+		}
+		for i := 0; i < v[4]; i++ {
+			f.grid[y+i][x]++
+		}
+	}
 }
 
 func maybePanic(err error) {
@@ -69,6 +78,9 @@ func parseClaims() [][]int {
 }
 
 func main() {
-	out := parseClaims()
-	fmt.Printf("%#v\n", out)
+	fab := newFabric()
+	claims := parseClaims()
+	fab.drawClaims(claims)
+	fmt.Printf("%#v\n", fab.grid)
+
 }
