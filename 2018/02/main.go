@@ -45,24 +45,27 @@ func checksum(boxen []string) int {
 
 func oneCharDiff(boxen []string) string {
 	var samesies []rune
-	for i := 1; i < len(boxen); i++ {
-		diffs := 0
-		prev := []rune(boxen[i-1])
-		cur := []rune(boxen[i])
-		samesies = []rune{}
-
-		for k, v := range prev {
-			if v != cur[k] {
-				diffs++
-				if diffs > 1 {
+	for i, e := range boxen {
+		for k, v := range boxen {
+			if i == k {
+				continue
+			}
+			samesies := []rune{}
+			diffs := 0
+			compstr := []rune(v)
+			for j, p := range e {
+				if p != compstr[j] {
+					diffs++
+				}
+				if diffs > 2 {
 					break
 				}
-			}
-			if v == cur[k] {
-				samesies = append(samesies, v)
-			}
-			if k == len(prev)-1 && diffs <= 1 {
-				return string(samesies)
+				if p == compstr[j] {
+					samesies = append(samesies, p)
+				}
+				if j == len(e)-1 {
+					return string(samesies)
+				}
 			}
 		}
 	}
