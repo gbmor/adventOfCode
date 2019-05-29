@@ -104,9 +104,9 @@ func (f *fabric) theCheeseStandsAlone(claims [][]int) int {
 		height := v[4]
 		clear := true
 
-		for i := y; i < y+width; i++ {
-			for j := x; j < x+height; j++ {
-				if f.grid[j][i] > 1 {
+		for i := y; i <= y+height; i++ {
+			for j := x; j <= x+width; j++ {
+				if f.grid[i][j] > 1 {
 					clear = false
 				}
 			}
