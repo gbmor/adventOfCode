@@ -57,7 +57,7 @@ func oneCharDiff(boxen []string) string {
 				if p != compstr[j] {
 					diffs++
 				}
-				if diffs > 2 {
+				if diffs > 1 {
 					break
 				}
 				if p == compstr[j] {
