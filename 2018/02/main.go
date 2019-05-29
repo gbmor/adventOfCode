@@ -95,8 +95,8 @@ func main() {
 	}
 
 	cksum := checksum(boxen)
+	diff := oneCharDiff(boxen)
 
 	fmt.Printf("Checksum: %v\n", cksum)
-
-	fmt.Printf("Matching box code: %v\n", oneCharDiff(boxen))
+	fmt.Printf("Matching box code: %v\n", diff)
 }
