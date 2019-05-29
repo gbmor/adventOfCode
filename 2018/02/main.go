@@ -45,9 +45,8 @@ func checksum(boxen []string) int {
 
 func hammingDistance(a, b string) int {
 	var dist int
-	c := []rune(b)
 	for k, v := range a {
-		if v != c[k] {
+		if v != rune(b[k]) {
 			dist++
 		}
 	}
@@ -56,8 +55,8 @@ func hammingDistance(a, b string) int {
 
 func oneCharDiff(boxen []string) string {
 	var hams = map[int][]string{}
-	for _, e := range boxen {
-		for _, v := range boxen {
+	for _, v := range boxen {
+		for _, e := range boxen {
 			dist := hammingDistance(e, v)
 			hams[dist] = []string{e, v}
 		}
