@@ -91,10 +91,40 @@ func (f *fabric) findOverlap() int {
 	return out
 }
 
+// this method finds the only claim that isn't
+// overlapped by any others. it isn't finished,
+// but i need sleep.
+func (f *fabric) theCheeseStandsAlone(claims [][]int) int {
+	var claim int
+
+	for _, v := range claims {
+		x := v[1]
+		y := v[2]
+		width := v[3]
+		height := v[4]
+		clear := true
+
+		for i := y; i < y+width; i++ {
+			for j := x; j < x+height; j++ {
+				if f.grid[j][i] > 1 {
+					clear = false
+				}
+			}
+		}
+
+		if clear {
+			claim = v[0]
+			break
+		}
+	}
+
+	return claim
+}
+
 func main() {
 	fab := newFabric()
 	claims := parseClaims()
 	fab.drawClaims(claims)
 	fmt.Printf("Overlap: %v square inches\n", fab.findOverlap())
-
+	fmt.Printf("Clear claim: %v\n", fab.theCheeseStandsAlone(claims))
 }
