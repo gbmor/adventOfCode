@@ -43,6 +43,33 @@ func checksum(boxen []string) int {
 	return one * two
 }
 
+func oneCharDiff(boxen []string) string {
+	var samesies []rune
+	for i := 1; i < len(boxen); i++ {
+		diffs := 0
+		for p, e := range boxen[i] {
+			if diffs > 1 {
+				samesies = []rune{}
+				break
+			}
+			prev := boxen[i-1]
+			if e == rune(prev[p]) {
+				samesies = append(samesies, e)
+			} else if e == rune(prev[p]) && p == len(boxen[i])-1 {
+				samesies = append(samesies, e)
+				return string(samesies)
+			} else {
+				diffs++
+			}
+		}
+		if diffs == 1 {
+			break
+		}
+	}
+
+	return string(samesies)
+}
+
 func main() {
 	data, err := ioutil.ReadFile("input.txt")
 	if err != nil {
@@ -60,4 +87,6 @@ func main() {
 	cksum := checksum(boxen)
 
 	fmt.Printf("Checksum: %v\n", cksum)
+
+	fmt.Printf("Matching box code: %v\n", oneCharDiff(boxen))
 }
