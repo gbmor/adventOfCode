@@ -13,8 +13,22 @@ func calcvar(v ...int) int {
 
 	return sum
 }
+func findDupeFreq(v ...int) int {
+	var list = map[int]bool{}
+	sum := 0
+	for {
+		for _, e := range v {
+			sum += e
+			if list[sum] {
+				return sum
+			}
+			list[sum] = true
+		}
+	}
+}
 
 func main() {
 	out := fmt.Sprintf("%v", calcvar(variance...))
 	fmt.Printf("Final Frequency: %v\n", out)
+	fmt.Printf("First Duplicate Frequency: %v\n", findDupeFreq(variance...))
 }
