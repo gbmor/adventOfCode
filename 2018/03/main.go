@@ -91,9 +91,6 @@ func (f *fabric) findOverlap() int {
 	return out
 }
 
-// this method finds the only claim that isn't
-// overlapped by any others. it isn't finished,
-// but i need sleep.
 func (f *fabric) theCheeseStandsAlone(claims [][]int) int {
 	var claim int
 
