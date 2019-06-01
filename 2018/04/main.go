@@ -12,16 +12,20 @@ import (
 var guardList = make(map[int]*guard)
 
 type guard struct {
-	id    int
-	times []string
-	sleep int
+	id           int
+	times        []string
+	sleep        []int
+	avg          int
+	sleepMinutes [][]int
 }
 
 func newGuard() *guard {
 	return &guard{
-		id:    0,
-		times: make([]string, 0),
-		sleep: 0,
+		id:           0,
+		times:        make([]string, 0),
+		sleep:        make([]int, 0),
+		avg:          0,
+		sleepMinutes: make([][]int, 0),
 	}
 }
 
@@ -84,36 +88,68 @@ func (g *guard) sleepTotal() {
 		minutes = append(minutes, num)
 	}
 
+	g.sleepMinutes = append(g.sleepMinutes, minutes)
+
 	for i, e := range minutes {
 		if i == 1 || i%2 > 0 {
 			dur := e - minutes[i-1]
-			g.sleep += dur - 1
+			g.sleep = append(g.sleep, dur)
 		}
 	}
 
-	fmt.Printf("%#v\n", g)
-	g.times = []string{}
-	fmt.Printf("%#v\n", g)
+	if len(g.sleep) > 1 {
+		tmp := 0
+		for _, e := range g.sleep {
+			tmp += e
+		}
+		g.avg = tmp / len(g.sleep)
+	} else if len(g.sleep) == 1 {
+		g.avg = g.sleep[0]
+	}
 
+	g.times = []string{}
 }
 
-func findSleepiest(gl map[int]*guard) (int, int) {
+func findSleepiest(gl map[int]*guard) (int, int, int) {
 	id := 0
 	total := 0
+	min := 0
 
 	for k, v := range gl {
-		if v.sleep > total {
-			total = v.sleep
+		if v.avg > total {
+			total = v.avg
 			id = k
 		}
 	}
 
-	return id, total
+	guard := gl[id]
+	sleepMap := make(map[int]int)
+	for _, e := range guard.sleepMinutes {
+		for k, v := range e {
+			if k == 1 || k%2 > 0 {
+				begin := e[k-1]
+				end := v
+				for i := 0; i < end; i++ {
+					sleepMap[begin+i]++
+				}
+			}
+		}
+	}
+
+	max := 0
+	for k, v := range sleepMap {
+		if v > max {
+			min = k
+			max = v
+		}
+	}
+
+	return id, total, min
 }
 
 func main() {
 	times := getTimes()
 	parseTimes(times)
-	id, mins := findSleepiest(guardList)
-	fmt.Printf("\nGuard: %v\nMinutes Asleep: %v\nAnswer: %v\n", id, mins, id*mins)
+	id, total, min := findSleepiest(guardList)
+	fmt.Printf("\nGuard: %v\nAverage Sleep Time: %v\nAnswer: %v\nSleepiest Minute: %v\n", id, total, id*min, min)
 }
