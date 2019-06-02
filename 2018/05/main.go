@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"io/ioutil"
 	"unicode"
@@ -34,42 +33,34 @@ func getData() *material {
 	return polymer
 }
 
-func reduce(m *material) *material {
+func reduce(m string) string {
 
-	var buf bytes.Buffer
-	iter := m.parsed
-	if m.reduced != "" {
-		iter = m.reduced
-	}
-	flag1 := false
-	flag2 := false
-	for i, e := range iter {
-		if i < len(m.parsed)-1 {
-			if unicode.IsLower(e) && unicode.IsUpper(rune(m.parsed[i+1])) {
-				if e == unicode.ToLower(rune(m.parsed[i+1])) {
-					flag1 = true
-					continue
-				}
-			}
-			if unicode.IsUpper(e) && unicode.IsLower(rune(m.parsed[i+1])) {
-				if e == unicode.ToUpper(rune(m.parsed[i+1])) {
-					flag2 = true
-					continue
-				}
-			}
-			buf.WriteRune(e)
+	buf := []rune{}
+	i := 0
+	for i < len(m)-2 {
+		r := rune(m[i+1])
+		e := rune(m[i])
+		if e == unicode.ToLower(r) && unicode.IsUpper(r) {
+			i++
+			continue
 		}
+		if e == unicode.ToUpper(r) && unicode.IsLower(r) {
+			i++
+			continue
+		}
+		buf = append(buf, rune(e))
+		i++
 	}
-	m.reduced = buf.String()
 
-	if !flag1 && !flag2 {
-		return m
+	if string(buf) == m {
+		return string(buf)
 	}
-	return reduce(m)
+
+	return reduce(string(buf))
 }
 
 func main() {
 	m := getData()
-	reduce(m)
-	fmt.Printf("Reduced polymer: %v\n", m.reduced)
+	out := reduce(m.parsed)
+	fmt.Printf("Reduced polymer: %v\n", out)
 }
