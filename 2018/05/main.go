@@ -48,14 +48,12 @@ func reduce(m *material) *material {
 			if unicode.IsLower(e) && unicode.IsUpper(rune(m.parsed[i+1])) {
 				if e == unicode.ToLower(rune(m.parsed[i+1])) {
 					flag1 = true
-					i++
 					continue
 				}
 			}
 			if unicode.IsUpper(e) && unicode.IsLower(rune(m.parsed[i+1])) {
 				if e == unicode.ToUpper(rune(m.parsed[i+1])) {
 					flag2 = true
-					i++
 					continue
 				}
 			}
