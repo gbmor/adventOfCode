@@ -28,7 +28,5 @@ defmodule Fuel do
 end
 
 data = File.read!("input.txt")
-fuel_naive = Fuel.calc_naive(data)
-IO.puts(fuel_naive)
-
+Fuel.calc_naive(data) |> IO.puts()
 Fuel.calc_for_each(data) |> IO.puts()
