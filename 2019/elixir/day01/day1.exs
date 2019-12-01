@@ -11,7 +11,7 @@ defmodule Fuel do
     |> Enum.sum()
   end
 
-  def calc_individual(mass, acc \\ 0) do
+  defp calc_individual(mass, acc \\ 0) do
     tmp = floor(mass / 3) - 2
 
     if tmp < 1 do
