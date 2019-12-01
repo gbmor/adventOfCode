@@ -1,16 +1,12 @@
 defmodule Fuel do
   def calc_naive(input) do
     input
-    |> String.split("\n", trim: true)
-    |> Enum.map(&String.to_integer/1)
     |> Enum.map(fn x -> floor(x / 3) - 2 end)
     |> Enum.sum()
   end
 
   def calc_for_each(input) do
     input
-    |> String.split("\n", trim: true)
-    |> Enum.map(&String.to_integer/1)
     |> Enum.map(fn x -> calc_individual(x) end)
     |> Enum.sum()
   end
@@ -27,6 +23,10 @@ defmodule Fuel do
   end
 end
 
-data = File.read!("input.txt")
+data =
+  File.read!("input.txt")
+  |> String.split("\n", trim: true)
+  |> Enum.map(&String.to_integer/1)
+
 Fuel.calc_naive(data) |> IO.puts()
 Fuel.calc_for_each(data) |> IO.puts()
