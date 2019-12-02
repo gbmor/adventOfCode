@@ -1,7 +1,6 @@
 # Advent of Code
 
-### 2018 
+### 2019
 
-\[ [Rust](https://github.com/gbmor/adventOfCode/tree/master/2018/rust) \]
+\[ [Elixir](https://github.com/gbmor/adventOfCode/tree/master/2019/elixir) \]
 
-\[ [&nbsp;Go&nbsp;](https://github.com/gbmor/adventOfCode/tree/master/2018/go) \]
