@@ -25,7 +25,7 @@ defmodule Opcodes do
         exec(new_input, index + 4)
 
       99 ->
-        Enum.join(input, ",")
+        Enum.at(input, 0, nil)
     end
   end
 end
