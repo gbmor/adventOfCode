@@ -28,6 +28,19 @@ defmodule Opcodes do
         Enum.at(input, 0, nil)
     end
   end
+
+  def bruteforce(input) do
+    for n <- 0..100, i <- 0..100 do
+      new_input = List.update_at(input, 1, fn _ -> n end)
+      new_input = List.update_at(new_input, 2, fn _ -> i end)
+      output = exec(new_input)
+
+      if output == 19_690_720 do
+        "Noun: #{n}\nVerb: #{i}" |> IO.puts()
+      end
+    end
+  end
 end
 
 Opcodes.get_input() |> Opcodes.exec() |> IO.puts()
+Opcodes.get_input() |> Opcodes.bruteforce()
