@@ -36,7 +36,7 @@ defmodule Opcodes do
       output = exec(new_input)
 
       if output == 19_690_720 do
-        "Noun: #{n}\nVerb: #{i}" |> IO.puts()
+        "Noun: #{n}\nVerb: #{i}\nAnswer: #{n * 100 + i}" |> IO.puts()
       end
     end
   end
